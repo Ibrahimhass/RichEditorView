@@ -142,6 +142,19 @@ private let DefaultInnerLineHeight: Int = 21
         if #available(iOS 10.0, *) {
             webView.configuration.dataDetectorTypes = WKDataDetectorTypes()
         }
+        // Matches the dark-mode background painted by rich_editor.html/style.css, so the
+        // webview's first frame (before that HTML/CSS finishes loading) doesn't flash black.
+        webView.isOpaque = false
+        if #available(iOS 13.0, *) {
+            webView.backgroundColor = UIColor { traitCollection in
+                traitCollection.userInterfaceStyle == .dark
+                    ? UIColor(red: 0x21 / 255.0, green: 0x27 / 255.0, blue: 0x31 / 255.0, alpha: 1)
+                    : .white
+            }
+        } else {
+            webView.backgroundColor = .white
+        }
+        webView.scrollView.backgroundColor = webView.backgroundColor
         webView.scrollView.isScrollEnabled = isScrollEnabled
         webView.scrollView.bounces = true
         webView.scrollView.delegate = self
