@@ -32,7 +32,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
     body, #editor {
-        background-color: #0F1115;
+        background-color: #212731;
     }
 }
 
