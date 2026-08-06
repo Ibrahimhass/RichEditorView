@@ -30,6 +30,10 @@ body {
     font: -apple-system-body;
 }
 
+body, #editor {
+    background-color: #EAEBEF;
+}
+
 @media (prefers-color-scheme: dark) {
     body, #editor {
         background-color: #212731;
