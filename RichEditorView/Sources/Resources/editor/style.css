@@ -31,7 +31,7 @@ body {
 }
 
 body, #editor {
-    background-color: #EAEBEF;
+    background-color: #F8F9FA;
 }
 
 @media (prefers-color-scheme: dark) {
