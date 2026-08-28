@@ -159,7 +159,10 @@ private let DefaultInnerLineHeight: Int = 21
         webView.scrollView.isScrollEnabled = isScrollEnabled
         webView.scrollView.bounces = true
         webView.scrollView.delegate = self
-        webView.scrollView.clipsToBounds = false
+        // Clip to bounds: the host may inset this view inside a padded container, and
+        // unclipped web content paints over that padding all the way to the screen edge
+        // whenever the page is scrolled.
+        webView.scrollView.clipsToBounds = true
         addSubview(webView)
         loadRichEditorView()
     }
