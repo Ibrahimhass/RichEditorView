@@ -466,13 +466,14 @@ private let DefaultInnerLineHeight: Int = 21
             return decisionHandler(WKNavigationActionPolicy.cancel);
         }
         
-        // User is tapping on a link, so we should react accordingly
-        if navigationAction.navigationType == .linkActivated {
-            if let url = navigationAction.request.url {
-                if delegate?.richEditor?(self, shouldInteractWith: url) ?? false {
-                    return decisionHandler(WKNavigationActionPolicy.allow);
-                }
-            }
+        // User is tapping on a link, so we should react accordingly.
+        // A delegate that implements shouldInteractWith decides; returning false cancels the
+        // navigation so the host can handle the URL itself (e.g. open it externally).
+        // Delegates that don't implement it keep the previous behaviour (.allow).
+        if navigationAction.navigationType == .linkActivated,
+           let url = navigationAction.request.url,
+           let shouldInteract = delegate?.richEditor?(self, shouldInteractWith: url) {
+            return decisionHandler(shouldInteract ? .allow : .cancel)
         }
         
         return decisionHandler(WKNavigationActionPolicy.allow);
